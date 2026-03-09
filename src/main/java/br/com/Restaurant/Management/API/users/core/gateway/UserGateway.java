@@ -6,16 +6,13 @@ import br.com.Restaurant.Management.API.users.core.dto.common.PaginatedResponseD
 import java.util.Optional;
 
 public interface UserGateway {
+    User create(User user);
+    User update(User user);
+    Optional<User> findById(Long id);
+    void deleteById(Long id);
+
     boolean existsByEmail(String email);
     boolean existsByLogin(String login);
 
-    Optional<User> findById(Long id);
-
-    User create(User user);
-    User update(User user);
-    void deleteById(Long id);
-
     PaginatedResponseDTO<User> findAll(int page, int size);
-
-
 }
