@@ -1,4 +1,4 @@
-package br.com.Restaurant.Management.API.users.core.dto.common;
+package br.com.Restaurant.Management.API.common.dto;
 
 import java.util.List;
 
