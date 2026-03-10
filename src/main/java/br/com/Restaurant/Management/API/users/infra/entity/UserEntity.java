@@ -17,8 +17,7 @@ public class UserEntity {
     private String login;
     private String password;
     private Boolean active;
-
-    @Column(name = "type_id")
+    @Column(name ="type_id")
     private Long typeId;
 
     @Column(name = "created_at")
@@ -47,7 +46,7 @@ public class UserEntity {
     public String getLogin() { return login; }
     public String getPassword() { return password; }
     public Boolean getActive() { return active; }
-    public Long getTypeId() { return typeId; }
+    public Long getTypeId() {return typeId;}
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

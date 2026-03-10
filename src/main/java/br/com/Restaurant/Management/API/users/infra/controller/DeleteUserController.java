@@ -1,11 +1,13 @@
 package br.com.Restaurant.Management.API.users.infra.controller;
 
-import br.com.Restaurant.Management.API.users.core.dto.common.BaseResponseDTO;
+import br.com.Restaurant.Management.API.common.dto.BaseResponseDTO;
 import br.com.Restaurant.Management.API.users.core.usecase.DeleteUserUseCase;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Users")
 @RestController
 @RequestMapping("/users")
 public class DeleteUserController {

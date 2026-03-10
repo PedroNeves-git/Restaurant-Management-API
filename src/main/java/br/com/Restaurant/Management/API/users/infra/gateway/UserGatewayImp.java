@@ -1,7 +1,7 @@
 package br.com.Restaurant.Management.API.users.infra.gateway;
 
 import br.com.Restaurant.Management.API.users.core.domain.User;
-import br.com.Restaurant.Management.API.users.core.dto.common.PaginatedResponseDTO;
+import br.com.Restaurant.Management.API.common.dto.PaginatedResponseDTO;
 import br.com.Restaurant.Management.API.users.core.gateway.UserGateway;
 import br.com.Restaurant.Management.API.users.infra.entity.UserEntity;
 import br.com.Restaurant.Management.API.users.infra.mapper.UserEntityMapper;

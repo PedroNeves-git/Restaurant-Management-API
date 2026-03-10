@@ -1,7 +1,7 @@
 package br.com.Restaurant.Management.API.users.core.gateway;
 
 import br.com.Restaurant.Management.API.users.core.domain.User;
-import br.com.Restaurant.Management.API.users.core.dto.common.PaginatedResponseDTO;
+import br.com.Restaurant.Management.API.common.dto.PaginatedResponseDTO;
 
 import java.util.Optional;
 

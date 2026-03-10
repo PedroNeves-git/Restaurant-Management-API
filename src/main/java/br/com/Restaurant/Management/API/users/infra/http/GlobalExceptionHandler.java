@@ -4,6 +4,8 @@ import br.com.Restaurant.Management.API.users.core.exception.EmailAlreadyInUseEx
 import br.com.Restaurant.Management.API.users.core.exception.InvalidFieldException;
 import br.com.Restaurant.Management.API.users.core.exception.LoginAlreadyInUseException;
 import br.com.Restaurant.Management.API.users.core.exception.UserNotFoundException;
+import br.com.Restaurant.Management.API.userstype.core.exception.UserTypeAlreadyInUseException;
+import br.com.Restaurant.Management.API.userstype.core.exception.UserTypeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -69,6 +71,30 @@ public class GlobalExceptionHandler {
                 new ErrorResponse(
                         HttpStatus.NOT_FOUND.value(),
                         "USER_NOT_FOUND",
+                        ex.getMessage(),
+                        OffsetDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(UserTypeAlreadyInUseException.class)
+    public ResponseEntity<ErrorResponse> handleUserTypeAlreadyInUse(UserTypeAlreadyInUseException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                new ErrorResponse(
+                        HttpStatus.CONFLICT.value(),
+                        "USER_TYPE_ALREADY_IN_USE",
+                        ex.getMessage(),
+                        OffsetDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(UserTypeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserTypeNotFound(UserTypeNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ErrorResponse(
+                        HttpStatus.NOT_FOUND.value(),
+                        "USER_TYPE_NOT_FOUND",
                         ex.getMessage(),
                         OffsetDateTime.now()
                 )

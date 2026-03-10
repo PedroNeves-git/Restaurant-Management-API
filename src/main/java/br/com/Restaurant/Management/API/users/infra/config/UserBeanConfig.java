@@ -2,6 +2,7 @@ package br.com.Restaurant.Management.API.users.infra.config;
 
 import br.com.Restaurant.Management.API.users.core.gateway.UserGateway;
 import br.com.Restaurant.Management.API.users.core.usecase.*;
+import br.com.Restaurant.Management.API.userstype.core.gateway.UserTypeGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +11,10 @@ public class UserBeanConfig {
 
     @Bean
     public CreateUserUseCase createUserUseCase(
-            UserGateway userGateway
+            UserGateway userGateway,
+            UserTypeGateway userTypeGateway
     ) {
-        return new CreateUserUseCase(userGateway);
+        return new CreateUserUseCase(userGateway, userTypeGateway);
     }
 
     @Bean
@@ -33,7 +35,7 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public UpdateUserUseCase updateUserUseCase(UserGateway userGateway) {
-        return new UpdateUserUseCase(userGateway);
+    public UpdateUserUseCase updateUserUseCase(UserGateway userGateway,  UserTypeGateway userTypeGateway) {
+        return new UpdateUserUseCase(userGateway, userTypeGateway);
     }
 }

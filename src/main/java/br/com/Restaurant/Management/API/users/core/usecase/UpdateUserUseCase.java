@@ -7,12 +7,16 @@ import br.com.Restaurant.Management.API.users.core.exception.EmailAlreadyInUseEx
 import br.com.Restaurant.Management.API.users.core.exception.LoginAlreadyInUseException;
 import br.com.Restaurant.Management.API.users.core.exception.UserNotFoundException;
 import br.com.Restaurant.Management.API.users.core.gateway.UserGateway;
+import br.com.Restaurant.Management.API.userstype.core.exception.UserTypeNotFoundException;
+import br.com.Restaurant.Management.API.userstype.core.gateway.UserTypeGateway;
 
 public class UpdateUserUseCase {
     private final UserGateway userGateway;
+    private final UserTypeGateway userTypeGateway;
 
-    public UpdateUserUseCase(UserGateway userGateway) {
+    public UpdateUserUseCase(UserGateway userGateway, UserTypeGateway userTypeGateway) {
         this.userGateway = userGateway;
+        this.userTypeGateway = userTypeGateway;
     }
 
     public UserOutputDTO execute(Long id, UpdateUserInputDTO input) {
@@ -28,6 +32,9 @@ public class UpdateUserUseCase {
                 userGateway.existsByLogin(input.login())) {
             throw new LoginAlreadyInUseException(input.login());
         }
+
+        var userType = userTypeGateway.findById(input.typeId())
+                .orElseThrow(() -> new UserTypeNotFoundException(input.typeId()));
 
         user.update(
                 input.name(),
