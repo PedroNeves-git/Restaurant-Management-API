@@ -1,9 +1,11 @@
-package br.com.Restaurant.Management.API.users.infra.http;
+package br.com.Restaurant.Management.API.globalException;
 
 import br.com.Restaurant.Management.API.users.core.exception.EmailAlreadyInUseException;
 import br.com.Restaurant.Management.API.users.core.exception.InvalidFieldException;
 import br.com.Restaurant.Management.API.users.core.exception.LoginAlreadyInUseException;
 import br.com.Restaurant.Management.API.users.core.exception.UserNotFoundException;
+import br.com.Restaurant.Management.API.common.dto.ErrorResponse;
+import br.com.Restaurant.Management.API.common.dto.ErrorResponseBadRequest;
 import br.com.Restaurant.Management.API.userstype.core.exception.UserTypeAlreadyInUseException;
 import br.com.Restaurant.Management.API.userstype.core.exception.UserTypeNotFoundException;
 import org.springframework.http.HttpStatus;

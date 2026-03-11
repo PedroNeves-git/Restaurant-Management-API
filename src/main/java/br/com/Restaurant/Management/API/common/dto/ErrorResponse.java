@@ -1,11 +1,10 @@
-package br.com.Restaurant.Management.API.users.infra.http;
+package br.com.Restaurant.Management.API.common.dto;
 
 import java.time.OffsetDateTime;
 
-public record ErrorResponseBadRequest(
+public record ErrorResponse(
         int status,
         String code,
-        String field,
         String message,
         OffsetDateTime timestamp
 ) { }
