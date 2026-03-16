@@ -25,7 +25,7 @@ public class RestaurantEntity {
     @Column(name = "closing_time")
     private LocalTime closingTime;
     private Long cuisineTypeId;
-    @Column(name = "user_id")
+    @Column(name = "owner_id")
     private Long restaurantOwnerId;
 
 }

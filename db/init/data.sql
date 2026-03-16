@@ -17,3 +17,24 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT IGNORE INTO users_type (id, name) VALUES (1, 'Dono do Restaurante');
 INSERT IGNORE INTO users_type (id, name) VALUES (2, 'Cliente');
+
+CREATE TABLE IF NOT EXISTS cuisine_type (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS restaurant (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    address VARCHAR(255),
+    opening_hours TIME,
+    closing_time TIME,
+    cuisine_type_id BIGINT,
+    owner_id BIGINT
+);
+
+INSERT IGNORE INTO cuisine_type (id, name) VALUES
+    (1, 'Mexicana'),
+    (2, 'Japonesa'),
+    (3, 'Brasileira'),
+    (4, 'Tailandesa');

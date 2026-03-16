@@ -15,11 +15,11 @@ public class ListRestaurantsByOwnerIdUseCase {
 
     private final RestaurantGateway restaurantGateway;
 
-    public List<RestaurantOutputDTO> execute(Long ownerId) {
-        List<Restaurant> restaurants = restaurantGateway.findRestaurantsByOwnerId(ownerId);
+    public List<RestaurantOutputDTO> execute(Long restaurantOwnerId) {
+        List<Restaurant> restaurants = restaurantGateway.findRestaurantsByRestaurantOwnerId(restaurantOwnerId);
 
         if (restaurants.isEmpty()) {
-            throw new RestaurantNotFoundException(ownerId);
+            throw new RestaurantNotFoundException(restaurantOwnerId);
         }
 
         return restaurants.stream()

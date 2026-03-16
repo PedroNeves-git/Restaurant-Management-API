@@ -13,6 +13,6 @@ public interface RestaurantGateway {
     void deleteById(Long id);
 
     boolean existsByName(String name);
-    List<Restaurant> findRestaurantsByOwnerId(Long ownerId);
+    List<Restaurant> findRestaurantsByRestaurantOwnerId(Long restaurantOwnerId);
     PaginatedResponseDTO<Restaurant> findAll(int page, int size);
 }

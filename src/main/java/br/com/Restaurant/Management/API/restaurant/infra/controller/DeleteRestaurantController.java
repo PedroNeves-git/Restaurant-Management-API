@@ -24,8 +24,8 @@ public class DeleteRestaurantController {
         return ResponseEntity.ok(
                 BaseResponseDTO.success(
                         HttpStatus.OK.value(),
-                        "USER_DELETED",
-                        "User deleted successfully"
+                        "RESTAURANT_DELETED",
+                        "Restaurant deleted successfully"
                 )
         );
     }

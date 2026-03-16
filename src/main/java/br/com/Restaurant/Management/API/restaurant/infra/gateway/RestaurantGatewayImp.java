@@ -41,8 +41,8 @@ public class RestaurantGatewayImp implements RestaurantGateway {
     }
 
     @Override
-    public List<Restaurant> findRestaurantsByOwnerId(Long ownerId) {
-        return repository.findRestaurantsByOwnerId(ownerId)
+    public List<Restaurant> findRestaurantsByRestaurantOwnerId(Long restaurantOwnerId) {
+        return repository.findRestaurantsByRestaurantOwnerId(restaurantOwnerId)
                 .stream()
                 .map(RestaurantEntityMapper::toDomain)
                 .toList();
