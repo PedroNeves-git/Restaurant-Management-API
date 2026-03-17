@@ -1,4 +1,4 @@
-package br.com.Restaurant.Management.API.userstype.infra.entity;
+package br.com.Restaurant.Management.API.cuisinetype.infra.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,15 +7,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "users_type")
+@Table(name = "cuisine_type")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTypeEntity {
+public class CuisineTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
-
 }
