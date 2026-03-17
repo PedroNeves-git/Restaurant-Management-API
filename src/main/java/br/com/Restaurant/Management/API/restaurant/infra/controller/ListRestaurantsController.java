@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Restaurant")
 @RestController
 @RequestMapping("/restaurant")
-@RequiredArgsConstructor
 public class ListRestaurantsController {
 
     private final ListRestaurantsUseCase listRestaurantsUseCase;
+
+    public ListRestaurantsController(ListRestaurantsUseCase listRestaurantsUseCase) {
+        this.listRestaurantsUseCase = listRestaurantsUseCase;
+    }
 
     @GetMapping
     public PaginatedResponseDTO<RestaurantOutputDTO> list(

@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Restaurant")
 @RestController
 @RequestMapping("/restaurant")
-@RequiredArgsConstructor
 public class DeleteRestaurantController {
 
     private final DeleteRestaurantUseCase deleteRestaurantUseCase;
+
+    public DeleteRestaurantController(DeleteRestaurantUseCase deleteRestaurantUseCase) {
+        this.deleteRestaurantUseCase = deleteRestaurantUseCase;
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -4,7 +4,6 @@ import br.com.Restaurant.Management.API.common.dto.PaginatedResponseDTO;
 import br.com.Restaurant.Management.API.cuisinetype.core.dto.output.CuisineTypeOutputDTO;
 import br.com.Restaurant.Management.API.cuisinetype.core.usecase.ListCuisineTypeUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Cuisine Types")
 @RestController
 @RequestMapping("/cuisinetype")
-@RequiredArgsConstructor
 public class ListCuisineTypeController {
 
     private final ListCuisineTypeUseCase listCuisineTypeUseCase;
+
+    public ListCuisineTypeController(ListCuisineTypeUseCase listCuisineTypeUseCase) {
+        this.listCuisineTypeUseCase = listCuisineTypeUseCase;
+    }
 
     @GetMapping
     public PaginatedResponseDTO<CuisineTypeOutputDTO> findAllUserTypes(

@@ -6,7 +6,6 @@ import br.com.Restaurant.Management.API.restaurant.core.gateway.RestaurantGatewa
 import br.com.Restaurant.Management.API.restaurant.infra.entity.RestaurantEntity;
 import br.com.Restaurant.Management.API.restaurant.infra.mapper.RestaurantEntityMapper;
 import br.com.Restaurant.Management.API.restaurant.infra.repository.RestaurantJpaRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -15,10 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class RestaurantGatewayImp implements RestaurantGateway {
 
     private final RestaurantJpaRepository repository;
+
+    public RestaurantGatewayImp(RestaurantJpaRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Restaurant create(Restaurant restaurant) {

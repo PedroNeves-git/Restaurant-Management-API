@@ -4,16 +4,16 @@ import br.com.Restaurant.Management.API.common.dto.PaginatedResponseDTO;
 import br.com.Restaurant.Management.API.restaurant.core.domain.Restaurant;
 import br.com.Restaurant.Management.API.restaurant.core.dto.output.RestaurantOutputDTO;
 import br.com.Restaurant.Management.API.restaurant.core.gateway.RestaurantGateway;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
 public class ListRestaurantsUseCase {
 
     private final RestaurantGateway restaurantGateway;
+
+    public ListRestaurantsUseCase(RestaurantGateway restaurantGateway) {
+        this.restaurantGateway = restaurantGateway;
+    }
 
     public PaginatedResponseDTO<RestaurantOutputDTO> execute(int page, int size) {
         PaginatedResponseDTO<Restaurant> restaurants = restaurantGateway.findAll(page, size);

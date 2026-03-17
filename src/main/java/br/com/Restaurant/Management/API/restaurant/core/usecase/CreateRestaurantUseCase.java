@@ -9,16 +9,18 @@ import br.com.Restaurant.Management.API.restaurant.core.exception.NameAlreadyInU
 import br.com.Restaurant.Management.API.restaurant.core.gateway.RestaurantGateway;
 import br.com.Restaurant.Management.API.users.core.exception.UserNotFoundException;
 import br.com.Restaurant.Management.API.users.core.gateway.UserGateway;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
 public class CreateRestaurantUseCase {
 
     private final RestaurantGateway restaurantGateway;
     private final UserGateway userGateway;
     private final CuisineTypeGateway cuisineTypeGateway;
+
+    public CreateRestaurantUseCase(RestaurantGateway restaurantGateway, UserGateway userGateway, CuisineTypeGateway cuisineTypeGateway) {
+        this.restaurantGateway = restaurantGateway;
+        this.userGateway = userGateway;
+        this.cuisineTypeGateway = cuisineTypeGateway;
+    }
 
     public RestaurantOutputDTO execute(CreateRestaurantInputDTO input) {
 

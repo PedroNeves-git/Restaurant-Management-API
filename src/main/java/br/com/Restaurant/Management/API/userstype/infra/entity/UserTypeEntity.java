@@ -1,9 +1,15 @@
 package br.com.Restaurant.Management.API.userstype.infra.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "users_type")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserTypeEntity {
 
     @Id
@@ -12,18 +18,4 @@ public class UserTypeEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    public UserTypeEntity() {}
-
-    public UserTypeEntity(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

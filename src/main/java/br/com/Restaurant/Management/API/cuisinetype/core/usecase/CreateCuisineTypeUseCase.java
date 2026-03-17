@@ -5,14 +5,14 @@ import br.com.Restaurant.Management.API.cuisinetype.core.dto.input.CreateCuisine
 import br.com.Restaurant.Management.API.cuisinetype.core.dto.output.CuisineTypeOutputDTO;
 import br.com.Restaurant.Management.API.cuisinetype.core.exception.CuisineTypeAlreadyInUseException;
 import br.com.Restaurant.Management.API.cuisinetype.core.gateway.CuisineTypeGateway;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
 public class CreateCuisineTypeUseCase {
 
     private final CuisineTypeGateway cuisineTypeGateway;
+
+    public CreateCuisineTypeUseCase(CuisineTypeGateway cuisineTypeGateway) {
+        this.cuisineTypeGateway = cuisineTypeGateway;
+    }
 
     public CuisineTypeOutputDTO execute(CreateCuisineTypeInputDTO input){
         if(cuisineTypeGateway.existsByName(input.name())) {

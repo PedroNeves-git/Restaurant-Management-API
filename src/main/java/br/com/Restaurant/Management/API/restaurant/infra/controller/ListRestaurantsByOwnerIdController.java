@@ -14,10 +14,13 @@ import java.util.List;
 @Tag(name = "Restaurant")
 @RestController
 @RequestMapping("/restaurant")
-@RequiredArgsConstructor
 public class ListRestaurantsByOwnerIdController {
 
     private final ListRestaurantsByOwnerIdUseCase listRestaurantsByOwnerIdUseCase;
+
+    public ListRestaurantsByOwnerIdController(ListRestaurantsByOwnerIdUseCase listRestaurantsByOwnerIdUseCase) {
+        this.listRestaurantsByOwnerIdUseCase = listRestaurantsByOwnerIdUseCase;
+    }
 
     @GetMapping("/{id}")
     public List<RestaurantOutputDTO> findById(@PathVariable Long id) {

@@ -8,15 +8,16 @@ import br.com.Restaurant.Management.API.restaurant.core.dto.output.RestaurantOut
 import br.com.Restaurant.Management.API.restaurant.core.exception.NameAlreadyInUseException;
 import br.com.Restaurant.Management.API.restaurant.core.exception.RestaurantNotFoundException;
 import br.com.Restaurant.Management.API.restaurant.core.gateway.RestaurantGateway;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
 public class UpdateRestaurantUseCase {
 
     private final RestaurantGateway restaurantGateway;
     private final CuisineTypeGateway cuisineTypeGateway;
+
+    public UpdateRestaurantUseCase(RestaurantGateway restaurantGateway, CuisineTypeGateway cuisineTypeGateway) {
+        this.restaurantGateway = restaurantGateway;
+        this.cuisineTypeGateway = cuisineTypeGateway;
+    }
 
     public RestaurantOutputDTO execute(Long id, UpdateRestaurantInputDTO input) {
         Restaurant restaurant = restaurantGateway.findById(id)

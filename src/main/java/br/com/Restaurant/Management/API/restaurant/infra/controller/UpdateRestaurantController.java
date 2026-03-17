@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Restaurant")
 @RestController
 @RequestMapping("/restaurant")
-@RequiredArgsConstructor
 public class UpdateRestaurantController {
 
     private final UpdateRestaurantUseCase updateRestaurantUseCase;
+
+    public UpdateRestaurantController(UpdateRestaurantUseCase updateRestaurantUseCase) {
+        this.updateRestaurantUseCase = updateRestaurantUseCase;
+    }
 
     @PutMapping("/{id}")
     public RestaurantOutputDTO update(

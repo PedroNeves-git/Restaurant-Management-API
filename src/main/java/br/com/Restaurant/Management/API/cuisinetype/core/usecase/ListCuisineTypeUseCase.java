@@ -4,16 +4,16 @@ import br.com.Restaurant.Management.API.common.dto.PaginatedResponseDTO;
 import br.com.Restaurant.Management.API.cuisinetype.core.domain.CuisineType;
 import br.com.Restaurant.Management.API.cuisinetype.core.dto.output.CuisineTypeOutputDTO;
 import br.com.Restaurant.Management.API.cuisinetype.core.gateway.CuisineTypeGateway;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
 public class ListCuisineTypeUseCase {
 
     private final CuisineTypeGateway cuisineTypeGateway;
+
+    public ListCuisineTypeUseCase(CuisineTypeGateway cuisineTypeGateway) {
+        this.cuisineTypeGateway = cuisineTypeGateway;
+    }
 
     public PaginatedResponseDTO<CuisineTypeOutputDTO> execute(int page, int size) {
         PaginatedResponseDTO<CuisineType> cuisinesType =  cuisineTypeGateway.findAll(page, size);

@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Restaurant")
 @RestController
 @RequestMapping("/restaurant")
-@RequiredArgsConstructor
 public class CreateRestaurantController {
     private final CreateRestaurantUseCase createRestaurantUseCase;
+
+    public CreateRestaurantController(CreateRestaurantUseCase createRestaurantUseCase) {
+        this.createRestaurantUseCase = createRestaurantUseCase;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
