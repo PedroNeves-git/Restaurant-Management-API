@@ -37,11 +37,13 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/userstype/**")
                         .hasAnyRole("USER", "RESTAURANT_OWNER")
 
-                        .requestMatchers("/users/**")
-                        .hasRole("RESTAURANT_OWNER")
+                        .requestMatchers(HttpMethod.GET, "/cuisinetype/**")
+                        .hasAnyRole("USER", "RESTAURANT_OWNER")
 
-                        .requestMatchers("/userstype/**")
-                        .hasRole("RESTAURANT_OWNER")
+                        .requestMatchers("/users/**").hasRole("RESTAURANT_OWNER")
+                        .requestMatchers("/userstype/**").hasRole("RESTAURANT_OWNER")
+                        .requestMatchers("/cuisinetype/**").hasRole("RESTAURANT_OWNER")
+                        .requestMatchers("/restaurant/**").hasRole("RESTAURANT_OWNER")
 
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html")
                         .permitAll()

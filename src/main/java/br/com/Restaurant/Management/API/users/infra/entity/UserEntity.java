@@ -2,6 +2,7 @@ package br.com.Restaurant.Management.API.users.infra.entity;
 
 import br.com.Restaurant.Management.API.users.core.domain.enums.UserRole;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
