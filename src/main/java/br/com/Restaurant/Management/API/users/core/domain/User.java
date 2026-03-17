@@ -1,5 +1,6 @@
 package br.com.Restaurant.Management.API.users.core.domain;
 
+import br.com.Restaurant.Management.API.users.core.domain.enums.UserRole;
 import br.com.Restaurant.Management.API.users.core.domain.vo.Email;
 import br.com.Restaurant.Management.API.users.core.domain.vo.Login;
 import br.com.Restaurant.Management.API.users.core.domain.vo.Password;
@@ -15,6 +16,7 @@ public class User {
     private Email email;
     private Login login;
     private Password password;
+    private UserRole role;
     private boolean active;
     private Long typeId;
     private LocalDateTime createdAt;
@@ -28,6 +30,7 @@ public class User {
             Password password,
             boolean active,
             Long typeId,
+            UserRole role,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
@@ -38,19 +41,21 @@ public class User {
         this.password = Objects.requireNonNull(password);
         this.active = active;
         this.typeId = Objects.requireNonNull(typeId);
+        this.role = Objects.requireNonNull(role);
         this.createdAt = Objects.requireNonNull(createdAt);
         this.updatedAt = Objects.requireNonNull(updatedAt);
     }
 
-    public static User newUser(String name, String email, String login, String password, Long typeId) {
+    public static User newUser(String name, String email, String login, String password, Long typeId, UserRole role) {
         LocalDateTime now = LocalDateTime.now();
-        return new User(null, name, new Email(email), new Login(login), new Password(password), true, typeId, now, now);
+        return new User(null, name, new Email(email), new Login(login), new Password(password), true, typeId, role,
+                now, now);
     }
 
     public static User restore(Long id, String name, String email, String login, String password,
-                               Boolean active, Long typeId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+                               Boolean active, Long typeId, UserRole role, LocalDateTime createdAt, LocalDateTime updatedAt) {
         return new User(id, name, new Email(email), new Login(login), new Password(password),
-                Boolean.TRUE.equals(active), typeId, createdAt, updatedAt);
+                Boolean.TRUE.equals(active), typeId, role, createdAt, updatedAt);
     }
 
     public void update(String name, String email, String login, Long typeId, Boolean active) {
@@ -67,7 +72,7 @@ public class User {
     }
 
     public UserPersistenceDTO export() {
-        return new UserPersistenceDTO(id, name, email.value(), login.value(), password.value(), active, typeId, createdAt, updatedAt);
+        return new UserPersistenceDTO(id, name, email.value(), login.value(), password.value(), active, typeId, role, createdAt, updatedAt);
     }
 
     private void refreshUpdatedAt() {

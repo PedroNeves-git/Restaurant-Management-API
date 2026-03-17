@@ -17,6 +17,7 @@ public class UserEntityMapper {
                 data.password(),
                 data.active(),
                 data.typeId(),
+                data.userRole(),
                 data.createdAt(),
                 data.updatedAt()
         );
@@ -31,6 +32,7 @@ public class UserEntityMapper {
                 e.getPassword(),
                 e.getActive(),
                 e.getTypeId(),
+                e.getRole(),
                 e.getCreatedAt(),
                 e.getUpdatedAt()
         );

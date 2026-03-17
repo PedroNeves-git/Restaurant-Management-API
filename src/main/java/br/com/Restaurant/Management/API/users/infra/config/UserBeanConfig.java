@@ -5,6 +5,7 @@ import br.com.Restaurant.Management.API.users.core.usecase.*;
 import br.com.Restaurant.Management.API.userstype.core.gateway.UserTypeGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class UserBeanConfig {
@@ -12,9 +13,10 @@ public class UserBeanConfig {
     @Bean
     public CreateUserUseCase createUserUseCase(
             UserGateway userGateway,
-            UserTypeGateway userTypeGateway
+            UserTypeGateway userTypeGateway,
+            PasswordEncoder passwordEncoder
     ) {
-        return new CreateUserUseCase(userGateway, userTypeGateway);
+        return new CreateUserUseCase(userGateway, userTypeGateway, passwordEncoder);
     }
 
     @Bean
