@@ -18,9 +18,7 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         System.out.println("Swagger OpenAPI Configurado!");
-
-        // configuration for button "Authorize" accept JWT
-        //String securitySchemeName = "bearerAuth";
+        String securitySchemeName = "bearerAuth";
 
         String description = "API for restaurant management.<br><br>" +
                 "<strong>Development Team:</strong><ul>" +
@@ -31,20 +29,17 @@ public class OpenApiConfig {
                 "<li>Pedro Henrique Neves dos Santos (sgtpedrocos@gmail.com)</li>" +
                 "</ul>";
 
-//        return new OpenAPI()
-//                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-//                .components(new Components()
-//                        .addSecuritySchemes(securitySchemeName,
-//                                new SecurityScheme()
-//                                        .name(securitySchemeName)
-//                                        .type(SecurityScheme.Type.HTTP)
-//                                        .scheme("bearer")
-//                                        .bearerFormat("JWT")
-//                        )
-//                )
-                return new OpenAPI()
-                .components(new Components().addSecuritySchemes("basicScheme",
-                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(new Components()
+                        .addSecuritySchemes(securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                        )
+                )
                 .info(new Info()
                         .title("Restaurant-Management-API")
                         .description(description)
@@ -54,10 +49,26 @@ public class OpenApiConfig {
                                 .url("https://github.com/PedroNeves-git/Restaurant-Management-API")
                         )
                 )
-                        .tags(List.of(
-                                new Tag().name("Users"),
-                                new Tag().name("Users Types")
-                        ));
+                .tags(List.of(
+                        new Tag().name("Users"),
+                        new Tag().name("Users Types")
+                ));
+//                return new OpenAPI()
+//                .components(new Components().addSecuritySchemes("basicScheme",
+//                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))
+//                .info(new Info()
+//                        .title("Restaurant-Management-API")
+//                        .description(description)
+//                        .version("1.0.0")
+//                        .contact(new Contact()
+//                                .name("Official Repository (GitHub)")
+//                                .url("https://github.com/PedroNeves-git/Restaurant-Management-API")
+//                        )
+//                )
+//                        .tags(List.of(
+//                                new Tag().name("Users"),
+//                                new Tag().name("Users Types")
+//                        ));
     }
 
 }
