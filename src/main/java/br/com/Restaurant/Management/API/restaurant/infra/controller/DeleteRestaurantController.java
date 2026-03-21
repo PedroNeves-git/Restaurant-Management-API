@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Restaurant")
+@Tag(name = "Restaurants")
 @RestController
 @RequestMapping("/restaurant")
 public class DeleteRestaurantController {

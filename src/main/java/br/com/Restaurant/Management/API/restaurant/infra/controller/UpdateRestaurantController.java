@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Restaurant")
+@Tag(name = "Restaurants")
 @RestController
 @RequestMapping("/restaurant")
 public class UpdateRestaurantController {

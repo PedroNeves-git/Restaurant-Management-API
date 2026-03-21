@@ -7,8 +7,8 @@ import br.com.Restaurant.Management.API.users.core.exception.EmailAlreadyInUseEx
 import br.com.Restaurant.Management.API.users.core.exception.LoginAlreadyInUseException;
 import br.com.Restaurant.Management.API.users.core.exception.UserNotFoundException;
 import br.com.Restaurant.Management.API.users.core.gateway.UserGateway;
-import br.com.Restaurant.Management.API.userstype.core.exception.UserTypeNotFoundException;
-import br.com.Restaurant.Management.API.userstype.core.gateway.UserTypeGateway;
+import br.com.Restaurant.Management.API.usersType.core.exception.UserTypeNotFoundException;
+import br.com.Restaurant.Management.API.usersType.core.gateway.UserTypeGateway;
 
 public class UpdateUserUseCase {
     private final UserGateway userGateway;

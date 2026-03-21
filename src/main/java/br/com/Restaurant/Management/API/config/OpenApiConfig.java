@@ -51,24 +51,11 @@ public class OpenApiConfig {
                 )
                 .tags(List.of(
                         new Tag().name("Users"),
-                        new Tag().name("Users Types")
+                        new Tag().name("User Types"),
+                        new Tag().name("Cuisine Types"),
+                        new Tag().name("Restaurants"),
+                        new Tag().name("Menu Items")
                 ));
-//                return new OpenAPI()
-//                .components(new Components().addSecuritySchemes("basicScheme",
-//                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))
-//                .info(new Info()
-//                        .title("Restaurant-Management-API")
-//                        .description(description)
-//                        .version("1.0.0")
-//                        .contact(new Contact()
-//                                .name("Official Repository (GitHub)")
-//                                .url("https://github.com/PedroNeves-git/Restaurant-Management-API")
-//                        )
-//                )
-//                        .tags(List.of(
-//                                new Tag().name("Users"),
-//                                new Tag().name("Users Types")
-//                        ));
     }
 
 }

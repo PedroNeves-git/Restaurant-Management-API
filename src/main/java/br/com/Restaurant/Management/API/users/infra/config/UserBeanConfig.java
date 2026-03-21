@@ -2,7 +2,7 @@ package br.com.Restaurant.Management.API.users.infra.config;
 
 import br.com.Restaurant.Management.API.users.core.gateway.UserGateway;
 import br.com.Restaurant.Management.API.users.core.usecase.*;
-import br.com.Restaurant.Management.API.userstype.core.gateway.UserTypeGateway;
+import br.com.Restaurant.Management.API.usersType.core.gateway.UserTypeGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;

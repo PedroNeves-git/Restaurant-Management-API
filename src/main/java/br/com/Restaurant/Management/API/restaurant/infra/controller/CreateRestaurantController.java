@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Restaurant")
+@Tag(name = "Restaurants")
 @RestController
 @RequestMapping("/restaurant")
 public class CreateRestaurantController {

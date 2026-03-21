@@ -1,4 +1,4 @@
-package br.com.Restaurant.Management.API.userstype.infra.entity;
+package br.com.Restaurant.Management.API.usersType.infra.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

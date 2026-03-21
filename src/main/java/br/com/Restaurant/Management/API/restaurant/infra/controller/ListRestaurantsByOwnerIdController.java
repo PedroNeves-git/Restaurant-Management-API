@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "Restaurant")
+@Tag(name = "Restaurants")
 @RestController
 @RequestMapping("/restaurant")
 public class ListRestaurantsByOwnerIdController {
