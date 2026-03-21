@@ -68,7 +68,7 @@ public class User {
     }
 
     public UserOutputDTO toOutput() {
-        return new UserOutputDTO(id, name, email.value(), login.value(), active, typeId, createdAt);
+        return new UserOutputDTO(id, name, email.value(), login.value(), active, typeId, createdAt, updatedAt);
     }
 
     public UserPersistenceDTO export() {
