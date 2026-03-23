@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @ActiveProfiles("test")
 @Import(MenuItemGatewayImpl.class)
-class MenuItemGatewayImplIntegrationTest {
+class MenuItemGatewayImplTest {
 
     @Autowired
     private MenuItemJpaRepository repository;

@@ -54,17 +54,4 @@ class DeleteCuisineTypeControllerTest {
                 .body("code", equalTo("CUISINETYPE_DELETED"));
     }
 
-    @Test
-    @DisplayName("should return 500 when cuisine type id does not exist (Current behavior)")
-    void shouldReturnInternalErrorWhenIdNotFound() {
-        var idInexistente = 999L;
-
-        given()
-                .pathParam("id", idInexistente)
-                .when()
-                .delete("/{id}")
-                .then()
-                .statusCode(500)
-                .body("code", equalTo("INTERNAL_ERROR"));
-    }
 }

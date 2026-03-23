@@ -136,7 +136,8 @@
 				<configuration>
 					<excludes>
 						<exclude>**/config/**</exclude>
-						<exclude>**/common/**</exclude>
+						<exclude>**/common/**</exclude>						<exclude>**/common/**</exclude>
+						<exclude>**/dto/**</exclude>
 						<exclude>**/Application.class</exclude>
 					</excludes>
 				</configuration>

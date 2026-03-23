@@ -1,8 +1,7 @@
-package br.com.Restaurant.Management.API.cuisinetype.infra.controller;
+package br.com.Restaurant.Management.API.usersType.infra.controller;
 
-
-import br.com.Restaurant.Management.API.cuisinetype.core.dto.input.CreateCuisineTypeInputDTO;
 import br.com.Restaurant.Management.API.users.infra.gateway.config.SecurityConfigurationsTest;
+import br.com.Restaurant.Management.API.usersType.core.dto.input.CreateUserTypeInputDTO;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +15,11 @@ import org.springframework.test.context.ActiveProfiles;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(SecurityConfigurationsTest.class)
-class ListCuisineTypeByIdControllerTest {
+class ListUserTypeByIdControllerTest {
 
     @LocalServerPort
     private int port;
@@ -27,34 +27,42 @@ class ListCuisineTypeByIdControllerTest {
     @BeforeEach
     void setup() {
         RestAssured.port = port;
-        RestAssured.basePath = "/cuisinetype";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
     @Test
-    @DisplayName("should return 200 and correct cuisine type when id exists")
-    void shouldReturnCuisineTypeWhenIdExists() {
-        var createRequest = new CreateCuisineTypeInputDTO("Francesa");
+    @DisplayName("should return 200 and user type when ID exists")
+    void shouldReturnUserTypeWhenIdExists() {
+        var createRequest = new CreateUserTypeInputDTO("COZINHEIRO");
 
-        var response = given()
+        var idCriado = given()
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post()
+                .post("/userstype")
                 .then()
                 .statusCode(201)
-                .extract().response();
+                .extract().jsonPath().getInt("id");
 
-        var idCadastrado = response.jsonPath().getInt("id");
-
-        given()
-                .pathParam("id", idCadastrado)
+        given().pathParam("id", idCriado)
                 .when()
-                .get("/{id}")
+                .get("/userstype/{id}")
                 .then()
                 .statusCode(200)
-                .body("id", is(idCadastrado))
-                .body("name", equalTo("Francesa"));
+                .contentType(ContentType.JSON)
+                .body("id", is(idCriado))
+                .body("name", equalTo("COZINHEIRO"));
     }
 
+    @Test
+    @DisplayName("should return 404 when user type ID does not exist")
+    void shouldReturn404WhenIdDoesNotExist() {
+        given()
+                .pathParam("id", 9999)
+                .when()
+                .get("/userstype/{id}")
+                .then()
+                .statusCode(404)
+                .body("code", equalTo("USER_TYPE_NOT_FOUND"));
+    }
 }

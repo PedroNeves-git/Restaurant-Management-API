@@ -1,8 +1,7 @@
-package br.com.Restaurant.Management.API.cuisinetype.infra.controller;
+package br.com.Restaurant.Management.API.usersType.infra.controller;
 
-
-import br.com.Restaurant.Management.API.cuisinetype.core.dto.input.CreateCuisineTypeInputDTO;
 import br.com.Restaurant.Management.API.users.infra.gateway.config.SecurityConfigurationsTest;
+import br.com.Restaurant.Management.API.usersType.core.dto.input.CreateUserTypeInputDTO;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,11 +14,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(SecurityConfigurationsTest.class)
-class ListCuisineTypeByIdControllerTest {
+class DeleteUserTypeControllerTest {
 
     @LocalServerPort
     private int port;
@@ -27,34 +26,40 @@ class ListCuisineTypeByIdControllerTest {
     @BeforeEach
     void setup() {
         RestAssured.port = port;
-        RestAssured.basePath = "/cuisinetype";
+        RestAssured.basePath = "";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
     @Test
-    @DisplayName("should return 200 and correct cuisine type when id exists")
-    void shouldReturnCuisineTypeWhenIdExists() {
-        var createRequest = new CreateCuisineTypeInputDTO("Francesa");
-
-        var response = given()
+    @DisplayName("should return 200 when user type is deleted successfully")
+    void shouldDeleteUserTypeSuccessfully() {
+        var request = new CreateUserTypeInputDTO("TEMPORARIO");
+        int idParaDeletar = given()
                 .contentType(ContentType.JSON)
-                .body(createRequest)
+                .body(request)
                 .when()
-                .post()
+                .post("/userstype")
                 .then()
                 .statusCode(201)
-                .extract().response();
+                .extract().jsonPath().getInt("id");
 
-        var idCadastrado = response.jsonPath().getInt("id");
-
-        given()
-                .pathParam("id", idCadastrado)
+        given().pathParam("id", idParaDeletar)
                 .when()
-                .get("/{id}")
+                .delete("/userstype/{id}")
                 .then()
                 .statusCode(200)
-                .body("id", is(idCadastrado))
-                .body("name", equalTo("Francesa"));
+                .body("code", equalTo("USERTYPE_DELETED"))
+                .body("message", equalTo("User Type deleted successfully"));
     }
 
+    @Test
+    @DisplayName("should return 404 when user type to delete does not exist")
+    void shouldReturn404WhenNotFound() {
+        given().pathParam("id", 9999)
+                .when()
+                .delete("/userstype/{id}")
+                .then()
+                .statusCode(404)
+                .body("code", equalTo("USER_TYPE_NOT_FOUND"));
+    }
 }
