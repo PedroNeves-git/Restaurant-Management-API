@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UserTypeGatewayImp implements UserTypeGateway {
+public class UserTypeGatewayImpl implements UserTypeGateway {
 
     private final UserTypeJpaRepository repository;
 
-    public UserTypeGatewayImp(UserTypeJpaRepository repository) {
+    public UserTypeGatewayImpl(UserTypeJpaRepository repository) {
         this.repository = repository;
     }
 

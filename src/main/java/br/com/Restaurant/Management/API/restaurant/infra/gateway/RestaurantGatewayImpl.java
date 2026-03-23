@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class RestaurantGatewayImp implements RestaurantGateway {
+public class RestaurantGatewayImpl implements RestaurantGateway {
 
     private final RestaurantJpaRepository repository;
 
-    public RestaurantGatewayImp(RestaurantJpaRepository repository) {
+    public RestaurantGatewayImpl(RestaurantJpaRepository repository) {
         this.repository = repository;
     }
 
