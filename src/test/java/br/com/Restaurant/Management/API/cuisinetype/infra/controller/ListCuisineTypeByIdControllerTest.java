@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
-
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(SecurityConfigurationsTest.class)
@@ -45,7 +45,7 @@ class ListCuisineTypeByIdControllerTest {
                 .statusCode(201)
                 .extract().response();
 
-        var idCadastrado = response.jsonPath().getLong("id");
+        var idCadastrado = response.jsonPath().getInt("id");
 
         given()
                 .pathParam("id", idCadastrado)
@@ -53,7 +53,7 @@ class ListCuisineTypeByIdControllerTest {
                 .get("/{id}")
                 .then()
                 .statusCode(200)
-                .body("id", is(1))
+                .body("id", is(idCadastrado))
                 .body("name", equalTo("Francesa"));
     }
 
