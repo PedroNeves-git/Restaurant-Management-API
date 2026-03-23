@@ -30,6 +30,7 @@ class CreateUserControllerTest {
     @BeforeEach
     void setup() {
         RestAssured.port = port;
+        RestAssured.basePath = "";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
