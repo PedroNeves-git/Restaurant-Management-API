@@ -11,20 +11,25 @@
 ## Descrição do projeto
 
 <p align="justify">
-Este projeto foi criado para a segunda fase do Tech Challenge da pós-graduação Desenvolvimento e Arquitetura JAVA da Insituição FIAP.
+Este projeto foi criado para a segunda fase do Tech Challenge da pós-graduação em Desenvolvimento e Arquitetura Java da instituição FIAP.
 
-O projeto consiste em um sistema de gerenciamento de login, restaurante e itens de cardápio onde podemos cadastrar usuários, restaurantes e seus produtos.
+Durante o desenvolvimento, foram aplicadas boas práticas de arquitetura de software e qualidade de código. A aplicação foi estruturada seguindo os princípios da Clean Architecture, promovendo separação de responsabilidades, baixo acoplamento entre camadas e maior facilidade de manutenção e evolução do sistema.
 </p>
 
 ## Funcionalidades
 
 `Funcionalidade 1:` CRUD de Usuários.
 
-`Funcionalidade 2:` CRUD de Restaurante.
+`Funcionalidade 2:` Login de usuário com JWT.
 
-`Funcionalidade 3:` CRUD de Itens do Cardápio
+`Funcionalidade 3:` CRUD de tipos de usuário.
 
-`Funcionalidade 4:` Sistema de Login utilizando o Security
+`Funcionalidade 4:` CRUD de Restaurante.
+
+`Funcionalidade 5:` CRUD de tipos de cozinha.
+
+`Funcionalidade 6:` CRUD de itens no menu.
+
 
 
 ## Ferramentas utilizadas
