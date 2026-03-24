@@ -27,7 +27,7 @@ class CreateUserTypeControllerTest {
     @BeforeEach
     void setup() {
         RestAssured.port = port;
-        RestAssured.basePath = "/userstype";
+        RestAssured.basePath = "api/v1/userstype";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 

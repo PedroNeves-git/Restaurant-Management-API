@@ -38,7 +38,7 @@ class DeleteUserControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"DELETE_ROLE\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getInt("id");
@@ -56,14 +56,14 @@ class DeleteUserControllerTest {
                 .contentType(ContentType.JSON)
                 .body(userRequest)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getInt("id");
 
         given().pathParam("id", userId)
                 .when()
-                .delete("/users/{id}")
+                .delete("api/v1/users/{id}")
                 .then()
                 .statusCode(200)
                 .body("code", equalTo("USER_DELETED"))
@@ -76,7 +76,7 @@ class DeleteUserControllerTest {
         given()
                 .pathParam("id", 9999)
                 .when()
-                .delete("/users/{id}")
+                .delete("api/v1/users/{id}")
                 .then()
                 .statusCode(404)
                 .body("code", equalTo("USER_NOT_FOUND"));

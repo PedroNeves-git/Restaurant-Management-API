@@ -54,13 +54,13 @@ class DeleteMenuItemControllerTest {
         int itemId = createScenario();
         given().pathParam("id", itemId)
                 .when()
-                .delete("/menu-items/{id}")
+                .delete("api/v1/menu-items/{id}")
                 .then()
                 .statusCode(204);
 
         given().pathParam("id", itemId)
                 .when()
-                .get("/menu-items/{id}")
+                .get("api/v1/menu-items/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -70,29 +70,29 @@ class DeleteMenuItemControllerTest {
     void shouldReturn404WhenItemNotFound() {
         given().pathParam("id", 999)
                 .when()
-                .delete("/menu-items/{id}")
+                .delete("api/v1/menu-items/{id}")
                 .then()
                 .statusCode(404)
                 .body("code", equalTo("MENU_ITEM_NOT_FOUND"));
     }
 
     private int createScenario() {
-        int utId = given().contentType(ContentType.JSON).body(Map.of("name", "OWNER")).post("/userstype").then().extract().jsonPath().getInt("id");
+        int utId = given().contentType(ContentType.JSON).body(Map.of("name", "OWNER")).post("api/v1/userstype").then().extract().jsonPath().getInt("id");
 
         int uId = given().contentType(ContentType.JSON).body(Map.of(
                 "name", "Owner", "login", "owner.del", "email", "del@test.com",
                 "password", "123", "role", "RESTAURANT_OWNER", "type_id", utId
-        )).post("/users").then().extract().jsonPath().getInt("id");
+        )).post("api/v1/users").then().extract().jsonPath().getInt("id");
 
-        int cId = given().contentType(ContentType.JSON).body(Map.of("name", "Italian")).post("/cuisinetype").then().extract().jsonPath().getInt("id");
+        int cId = given().contentType(ContentType.JSON).body(Map.of("name", "Italian")).post("api/v1/cuisinetype").then().extract().jsonPath().getInt("id");
 
         int rId = given().contentType(ContentType.JSON).body(Map.of(
                 "name", "Rest Del", "address", "Rua Teste", "openingTime", "11:00",
                 "closingTime", "23:00", "cuisine_type_id", cId, "restaurant_owner_id", uId
-        )).post("/restaurant").then().extract().jsonPath().getInt("id");
+        )).post("api/v1/restaurant").then().extract().jsonPath().getInt("id");
 
         return given().contentType(ContentType.JSON).body(Map.of(
                 "name", "Pizza Del", "description", "Desc", "price", 35.0, "restaurantId", rId
-        )).post("/menu-items").then().extract().jsonPath().getInt("id");
+        )).post("api/v1/menu-items").then().extract().jsonPath().getInt("id");
     }
 }

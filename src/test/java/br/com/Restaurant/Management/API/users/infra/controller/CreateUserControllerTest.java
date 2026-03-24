@@ -41,7 +41,7 @@ class CreateUserControllerTest {
                     .contentType(ContentType.JSON)
                     .body("{\"name\":\"RESTAURANT_OWNER\"}")
                     .when()
-                    .post("/userstype")
+                    .post("api/v1/userstype")
                     .then()
                     .statusCode(201)
                     .extract().jsonPath().getLong("id");
@@ -57,7 +57,7 @@ class CreateUserControllerTest {
             given().contentType(ContentType.JSON)
                     .body(request)
                     .when()
-                    .post("/users")
+                    .post("api/v1/users")
                     .then()
                     .statusCode(201)
                     .body("id", notNullValue())
@@ -71,7 +71,7 @@ class CreateUserControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"RESTAURANT_OWNER_CONFLICT\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -89,7 +89,7 @@ class CreateUserControllerTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201);
 
@@ -97,7 +97,7 @@ class CreateUserControllerTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(409)
                 .body("code", equalTo("EMAIL_ALREADY_IN_USE"));

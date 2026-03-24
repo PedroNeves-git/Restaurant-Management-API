@@ -41,7 +41,7 @@ class CreateCuisineTypeControllerTest {
         given().contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/cuisinetype")
+                .post("api/v1/cuisinetype")
                 .then()
                 .statusCode(201)
                 .contentType(ContentType.JSON)

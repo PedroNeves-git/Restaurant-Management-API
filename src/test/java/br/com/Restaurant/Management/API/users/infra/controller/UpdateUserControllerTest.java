@@ -42,7 +42,7 @@ class UpdateUserControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + roleName + "\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -61,7 +61,7 @@ class UpdateUserControllerTest {
         return given().contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -88,7 +88,7 @@ class UpdateUserControllerTest {
                 .pathParam("id", userId)
                 .body(updateRequest)
                 .when()
-                .put("/users/{id}")
+                .put("api/v1/users/{id}")
                 .then()
                 .statusCode(200)
                 .body("name", equalTo("Usuário Atualizado"))
@@ -113,7 +113,7 @@ class UpdateUserControllerTest {
                 .pathParam("id", 999999L)
                 .body(updateRequest)
                 .when()
-                .put("/users/{id}")
+                .put("api/v1/users/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -143,7 +143,7 @@ class UpdateUserControllerTest {
         given().contentType(ContentType.JSON)
                 .body(duplicateRequest)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(409)
                 .body("code", equalTo("LOGIN_ALREADY_IN_USE"))

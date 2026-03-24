@@ -35,16 +35,16 @@ class ListUsersTypeControllerTest {
     void shouldReturnPaginatedUserTypes() {
         given().contentType(ContentType.JSON)
                 .body(new CreateUserTypeInputDTO("ADMIN_LIST"))
-                .post("/userstype");
+                .post("api/v1/userstype");
 
         given().contentType(ContentType.JSON)
                 .body(new CreateUserTypeInputDTO("CLIENT_LIST"))
-                .post("/userstype");
+                .post("api/v1/userstype");
 
         given().queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("/userstype")
+                .get("api/v1/userstype")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)

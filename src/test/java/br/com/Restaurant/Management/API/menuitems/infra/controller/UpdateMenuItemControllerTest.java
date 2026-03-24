@@ -62,7 +62,7 @@ class UpdateMenuItemControllerTest {
         int userTypeId = given()
                 .contentType(ContentType.JSON)
                 .body(Map.of("name", roleName))
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then().statusCode(201).extract().jsonPath().getInt("id");
 
         int userId = given()
@@ -75,13 +75,13 @@ class UpdateMenuItemControllerTest {
                         "role", "RESTAURANT_OWNER",
                         "type_id", userTypeId
                 ))
-                .post("/users")
+                .post("api/v1/users")
                 .then().statusCode(201).extract().jsonPath().getInt("id");
 
         int cuisineId = given()
                 .contentType(ContentType.JSON)
                 .body(Map.of("name", "Italian"))
-                .post("/cuisinetype")
+                .post("api/v1/cuisinetype")
                 .then().statusCode(201).extract().jsonPath().getInt("id");
 
         int restaurantId = given()
@@ -94,7 +94,7 @@ class UpdateMenuItemControllerTest {
                         "cuisine_type_id", cuisineId,
                         "restaurant_owner_id", userId
                 ))
-                .post("/restaurant")
+                .post("api/v1/restaurant")
                 .then().statusCode(201).extract().jsonPath().getInt("id");
 
         var createMenuRequest = Map.of(
@@ -109,7 +109,7 @@ class UpdateMenuItemControllerTest {
         int menuItemId = given()
                 .contentType(ContentType.JSON)
                 .body(createMenuRequest)
-                .post("/menu-items")
+                .post("api/v1/menu-items")
                 .then().statusCode(201).extract().jsonPath().getInt("id");
 
         var updateRequest = new UpdateMenuItemInputDTO(
@@ -124,7 +124,7 @@ class UpdateMenuItemControllerTest {
                 .contentType(ContentType.JSON)
                 .body(updateRequest)
                 .when()
-                .put("/menu-items/{id}")
+                .put("api/v1/menu-items/{id}")
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(menuItemId))

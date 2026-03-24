@@ -41,7 +41,7 @@ class LoginControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + roleName + "\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -60,7 +60,7 @@ class LoginControllerTest {
         given().contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201);
     }
@@ -81,7 +81,7 @@ class LoginControllerTest {
                 .contentType(ContentType.JSON)
                 .body(loginDTO)
                 .when()
-                .post("/auth/login")
+                .post("api/v1/auth/login")
                 .then()
                 .statusCode(200)
                 .body("token", notNullValue());
@@ -102,7 +102,7 @@ class LoginControllerTest {
                 .contentType(ContentType.JSON)
                 .body(loginDTO)
                 .when()
-                .post("/auth/login")
+                .post("api/v1/auth/login")
                 .then()
                 .statusCode(500)
                 .body("code", equalTo("INTERNAL_ERROR"));

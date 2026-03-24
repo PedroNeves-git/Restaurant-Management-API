@@ -26,7 +26,7 @@ class DeleteCuisineTypeControllerTest {
     @BeforeEach
     void setup() {
         RestAssured.port = port;
-        RestAssured.basePath = "/cuisinetype";
+        RestAssured.basePath = "api/v1/cuisinetype";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 

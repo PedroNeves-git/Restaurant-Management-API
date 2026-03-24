@@ -39,14 +39,14 @@ class ListUserTypeByIdControllerTest {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getInt("id");
 
         given().pathParam("id", idCriado)
                 .when()
-                .get("/userstype/{id}")
+                .get("api/v1/userstype/{id}")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
@@ -60,7 +60,7 @@ class ListUserTypeByIdControllerTest {
         given()
                 .pathParam("id", 9999)
                 .when()
-                .get("/userstype/{id}")
+                .get("api/v1/userstype/{id}")
                 .then()
                 .statusCode(404)
                 .body("code", equalTo("USER_TYPE_NOT_FOUND"));

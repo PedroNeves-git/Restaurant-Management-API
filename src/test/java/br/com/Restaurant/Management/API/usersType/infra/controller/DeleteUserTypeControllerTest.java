@@ -38,14 +38,14 @@ class DeleteUserTypeControllerTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getInt("id");
 
         given().pathParam("id", idParaDeletar)
                 .when()
-                .delete("/userstype/{id}")
+                .delete("api/v1/userstype/{id}")
                 .then()
                 .statusCode(200)
                 .body("code", equalTo("USERTYPE_DELETED"))
@@ -57,7 +57,7 @@ class DeleteUserTypeControllerTest {
     void shouldReturn404WhenNotFound() {
         given().pathParam("id", 9999)
                 .when()
-                .delete("/userstype/{id}")
+                .delete("api/v1/userstype/{id}")
                 .then()
                 .statusCode(404)
                 .body("code", equalTo("USER_TYPE_NOT_FOUND"));
