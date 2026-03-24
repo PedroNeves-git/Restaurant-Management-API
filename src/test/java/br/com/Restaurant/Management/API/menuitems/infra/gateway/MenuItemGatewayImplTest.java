@@ -83,7 +83,7 @@ class MenuItemGatewayImplTest {
 
         gateway.create(MenuItem.newMenuItem("Item 1", "Desc", BigDecimal.valueOf(10.0), true, "", restaurantId));
         gateway.create(MenuItem.newMenuItem("Item 2", "Desc", BigDecimal.valueOf(20.0), true, "", restaurantId));
-        gateway.create(MenuItem.newMenuItem("Item 3", "Desc", BigDecimal.valueOf(30.0), true, "",5L)); // Outro restaurante
+        gateway.create(MenuItem.newMenuItem("Item 3", "Desc", BigDecimal.valueOf(30.0), true, "",5L));
 
         var response = gateway.findAllByRestaurantId(restaurantId, 0, 10);
 
@@ -100,5 +100,36 @@ class MenuItemGatewayImplTest {
         gateway.deleteById(id);
 
         assertThat(repository.existsById(id)).isFalse();
+    }
+
+
+    @Test
+    @DisplayName("should find all MenuItems with pagination")
+    void findAllShouldReturnPaginatedData() {
+        gateway.create(MenuItem.newMenuItem("Pizza", "Desc", BigDecimal.valueOf(40.0), true, "", 1L));
+        gateway.create(MenuItem.newMenuItem("Burger", "Desc", BigDecimal.valueOf(30.0), true, "", 1L));
+        gateway.create(MenuItem.newMenuItem("Sushi", "Desc", BigDecimal.valueOf(60.0), true, "", 2L));
+
+        int page = 0;
+        int size = 2;
+        var response = gateway.findAll(page, size);
+
+        assertThat(response).isNotNull();
+        assertThat(response.content()).hasSize(2);
+        assertThat(response.totalElements()).isEqualTo(3);
+        assertThat(response.totalPages()).isEqualTo(2);
+        assertThat(response.page()).isEqualTo(0);
+
+        assertThat(response.content().get(0)).isInstanceOf(MenuItem.class);
+    }
+
+    @Test
+    @DisplayName("should return empty page when no items exist")
+    void findAllShouldReturnEmptyPageWhenNoData() {
+        var response = gateway.findAll(0, 10);
+
+        assertThat(response.content()).isEmpty();
+        assertThat(response.totalElements()).isZero();
+        assertThat(response.totalPages()).isZero();
     }
 }

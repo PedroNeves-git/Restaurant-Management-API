@@ -6,6 +6,7 @@ import br.com.Restaurant.Management.API.menuItems.core.dto.output.MenuItemOutput
 import br.com.Restaurant.Management.API.menuItems.core.exception.MenuItemNotFoundException;
 import br.com.Restaurant.Management.API.menuItems.core.gateway.MenuItemGateway;
 import br.com.Restaurant.Management.API.menuItems.core.usecase.UpdateMenuItemUseCase;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,48 +36,51 @@ class UpdateMenuItemUseCaseTest {
 
 
     @Test
+    @DisplayName("Should update all fields when valid data is provided")
     void shouldUpdateMenuItemWhenItemExists() {
         var input = createInput();
-        var menuItem = mock(MenuItem.class);
-        var updatedMenuItem = mock(MenuItem.class);
-        var expectedOutput = createOutput();
+        var menuItem = MenuItem.restore(ID, "OldName", "Old description", BigDecimal.TEN, false, "old.png", RESTAURANT_ID);
 
-        when(menuItemGateway.findById(anyLong())).thenReturn(Optional.of(menuItem));
-        when(menuItemGateway.update(menuItem)).thenReturn(updatedMenuItem);
-        when(updatedMenuItem.toOutput()).thenReturn(expectedOutput);
+        when(menuItemGateway.findById(ID)).thenReturn(Optional.of(menuItem));
+        when(menuItemGateway.update(any(MenuItem.class))).thenAnswer(i -> i.getArgument(0));
 
         var result = useCaseUnderTest.execute(ID, input);
 
         assertNotNull(result);
-        assertEquals(expectedOutput, result);
+        assertEquals(NAME, result.name());
+        assertEquals(PRICE, result.price());
+        assertTrue(result.availableOnlyInRestaurant());
 
-        verify(menuItemGateway).findById(anyLong());
-        verify(menuItem).update(
-                input.name(),
-                input.description(),
-                input.price(),
-                input.availableOnlyInRestaurant(),
-                input.imagePath()
-        );
-
+        verify(menuItemGateway).findById(ID);
         verify(menuItemGateway).update(menuItem);
-        verify(updatedMenuItem).toOutput();
-        verifyNoMoreInteractions(menuItemGateway, menuItem, updatedMenuItem);
     }
 
     @Test
     void shouldThrowExceptionWhenMenuItemDoesNotExist() {
         var input = createInput();
-
         when(menuItemGateway.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(MenuItemNotFoundException.class,
-                () -> useCaseUnderTest.execute(ID, input));
+        assertThrows(MenuItemNotFoundException.class, () -> useCaseUnderTest.execute(ID, input));
 
         verify(menuItemGateway).findById(anyLong());
         verifyNoMoreInteractions(menuItemGateway);
     }
 
+    @Test
+    @DisplayName("Deve lançar exceção quando o preço no input for inválido (cobre requirePrice)")
+    void shouldThrowExceptionWhenPriceIsInvalid() {
+        var inputComPrecoInvalido = new UpdateMenuItemInputDTO(NAME, DESCRIPTION, BigDecimal.ZERO, AVAILABLE, IMAGE);
+        var menuItem = MenuItem.restore(ID, "Old", "Old", BigDecimal.TEN, false, "old.png", RESTAURANT_ID);
+
+        when(menuItemGateway.findById(ID)).thenReturn(Optional.of(menuItem));
+
+        var exception = assertThrows(IllegalArgumentException.class, () ->
+                useCaseUnderTest.execute(ID, inputComPrecoInvalido)
+        );
+
+        assertEquals("Price must be greater than zero", exception.getMessage());
+        verify(menuItemGateway, never()).update(any());
+    }
 
     private UpdateMenuItemInputDTO createInput() {
         return new UpdateMenuItemInputDTO(
