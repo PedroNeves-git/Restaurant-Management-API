@@ -1,8 +1,11 @@
 package br.com.Restaurant.Management.API.menuitems.infra.controller;
 
+import br.com.Restaurant.Management.API.cuisinetype.infra.repository.CuisineTypeJpaRepository;
 import br.com.Restaurant.Management.API.menuItems.infra.repository.MenuItemJpaRepository;
 import br.com.Restaurant.Management.API.restaurant.infra.repository.RestaurantJpaRepository;
 import br.com.Restaurant.Management.API.users.infra.gateway.config.SecurityConfigurationsTest;
+import br.com.Restaurant.Management.API.users.infra.repository.UserJpaRepository;
+import br.com.Restaurant.Management.API.usersType.infra.repository.UserTypeJpaRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,11 +29,11 @@ class ListMenuItemByIdControllerTest {
     @LocalServerPort
     private int port;
 
-    @Autowired
-    private MenuItemJpaRepository menuItemRepository;
-
-    @Autowired
-    private RestaurantJpaRepository restaurantRepository;
+    @Autowired private MenuItemJpaRepository menuItemRepository;
+    @Autowired private RestaurantJpaRepository restaurantRepository;
+    @Autowired private UserJpaRepository userRepository;
+    @Autowired private UserTypeJpaRepository userTypeRepository;
+    @Autowired private CuisineTypeJpaRepository cuisineTypeRepository;
 
     @BeforeEach
     void setup() {
@@ -38,6 +41,9 @@ class ListMenuItemByIdControllerTest {
         RestAssured.basePath = "";
         menuItemRepository.deleteAll();
         restaurantRepository.deleteAll();
+        userRepository.deleteAll();
+        userTypeRepository.deleteAll();
+        cuisineTypeRepository.deleteAll();
     }
 
     @Test
