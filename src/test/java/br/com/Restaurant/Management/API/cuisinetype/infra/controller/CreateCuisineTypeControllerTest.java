@@ -12,6 +12,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.UUID;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -26,23 +28,24 @@ class CreateCuisineTypeControllerTest {
     @BeforeEach
     void setup() {
         RestAssured.port = port;
-        RestAssured.basePath = "/cuisinetype";
+        RestAssured.basePath = "";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
     @Test
     @DisplayName("should return 201 when cuisine type is created successfully")
     void shouldReturnCreatedWhenCuisineTypeIsValid() {
-        var request = new CreateCuisineTypeInputDTO("Italiana");
+        String uniqueCuisineName = "Cuisine_" + UUID.randomUUID().toString().substring(0, 8);
+        var request = new CreateCuisineTypeInputDTO(uniqueCuisineName);
 
         given().contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post()
+                .post("/cuisinetype")
                 .then()
                 .statusCode(201)
                 .contentType(ContentType.JSON)
-                .body("name", equalTo("Italiana"))
+                .body("name", equalTo(uniqueCuisineName))
                 .body("id", notNullValue());
     }
 
