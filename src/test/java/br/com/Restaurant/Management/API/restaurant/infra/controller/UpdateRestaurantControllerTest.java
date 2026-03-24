@@ -43,7 +43,7 @@ class UpdateRestaurantControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + roleName + "\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -61,7 +61,7 @@ class UpdateRestaurantControllerTest {
                 .contentType(ContentType.JSON)
                 .body(userRequest)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -73,7 +73,7 @@ class UpdateRestaurantControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + uniqueName + "\"}")
                 .when()
-                .post("/cuisinetype")
+                .post("api/v1/cuisinetype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -100,7 +100,7 @@ class UpdateRestaurantControllerTest {
         Long restaurantId = given().contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/restaurant")
+                .post("api/v1/restaurant")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id"); // Precisamos extrair o ID para poder dar o PUT nele depois!
@@ -118,7 +118,7 @@ class UpdateRestaurantControllerTest {
                 .pathParam("id", restaurantId)
                 .body(updateRequest)
                 .when()
-                .put("/restaurant/{id}")
+                .put("api/v1/restaurant/{id}")
                 .then()
                 .statusCode(200) // Assumindo que seu controller retorna 200 OK (se retornar 204 No Content, é só mudar aqui)
                 .body("name", equalTo(updatedName))
@@ -142,7 +142,7 @@ class UpdateRestaurantControllerTest {
                 .pathParam("id", 999999L)
                 .body(updateRequest)
                 .when()
-                .put("/restaurant/{id}")
+                .put("api/v1/restaurant/{id}")
                 .then()
                 .statusCode(404);
     }

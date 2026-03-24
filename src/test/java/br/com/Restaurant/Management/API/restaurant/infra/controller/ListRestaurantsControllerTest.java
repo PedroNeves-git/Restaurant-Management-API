@@ -42,7 +42,7 @@ class ListRestaurantsControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + roleName + "\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -60,7 +60,7 @@ class ListRestaurantsControllerTest {
                 .contentType(ContentType.JSON)
                 .body(userRequest)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -72,7 +72,7 @@ class ListRestaurantsControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + uniqueName + "\"}")
                 .when()
-                .post("/cuisinetype")
+                .post("api/v1/cuisinetype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -98,14 +98,14 @@ class ListRestaurantsControllerTest {
         given().contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/restaurant")
+                .post("api/v1/restaurant")
                 .then()
                 .statusCode(201);
 
         given().queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("/restaurant")
+                .get("api/v1/restaurant")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)

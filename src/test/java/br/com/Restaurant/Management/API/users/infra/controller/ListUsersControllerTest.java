@@ -56,7 +56,7 @@ class ListUsersControllerTest {
         int userTypeId = given()
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"LIST_USERS_ROLE\"}")
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then().extract().jsonPath().getInt("id");
 
         var userRequest = new CreateUserInputDTO(
@@ -70,12 +70,12 @@ class ListUsersControllerTest {
 
         given().contentType(ContentType.JSON)
                 .body(userRequest)
-                .post("/users");
+                .post("api/v1/users");
 
         given().queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("/users")
+                .get("api/v1/users")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)

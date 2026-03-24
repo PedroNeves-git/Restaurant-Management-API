@@ -39,7 +39,7 @@ class ListUserByIdControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"USER_BY_ID_ROLE\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getInt("id");
@@ -57,14 +57,14 @@ class ListUserByIdControllerTest {
                 .contentType(ContentType.JSON)
                 .body(userRequest)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getInt("id");
 
         given().pathParam("id", userId)
                 .when()
-                .get("/users/{id}")
+                .get("api/v1/users/{id}")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
@@ -78,7 +78,7 @@ class ListUserByIdControllerTest {
     void shouldReturn404WhenNotFound() {
         given().pathParam("id", 9999)
                 .when()
-                .get("/users/{id}")
+                .get("api/v1/users/{id}")
                 .then()
                 .statusCode(404)
                 .body("code", equalTo("USER_NOT_FOUND"));

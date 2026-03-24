@@ -39,7 +39,7 @@ class ListMenuItemsControllerTest {
                 .queryParam("size", 10)
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/menu-items")
+                .get("api/v1/menu-items")
                 .then()
                 .statusCode(200)
                 .body("content", hasSize(greaterThanOrEqualTo(1)))
@@ -54,7 +54,7 @@ class ListMenuItemsControllerTest {
     private int createFullScenario() {
         int utId = given().contentType(ContentType.JSON)
                 .body(Map.of("name", "OWNER_LIST"))
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .extract()
                 .jsonPath().getInt("id");
@@ -63,27 +63,27 @@ class ListMenuItemsControllerTest {
                 .body(Map.of(
                 "name", "List Owner", "login", "listowner", "email", "list@test.com",
                 "password", "123", "role", "RESTAURANT_OWNER", "type_id", utId))
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .extract()
                 .jsonPath().getInt("id");
 
         int cId = given().contentType(ContentType.JSON)
                 .body(Map.of("name", "Japanese"))
-                .post("/cuisinetype").then().extract()
+                .post("api/v1/cuisinetype").then().extract()
                 .jsonPath().getInt("id");
 
         int rId = given().contentType(ContentType.JSON)
                 .body(Map.of(
                 "name", "List Rest", "address", "Rua Listagem, 100", "openingTime", "11:00",
                 "closingTime", "23:00", "cuisine_type_id", cId, "restaurant_owner_id", uId))
-                .post("/restaurant")
+                .post("api/v1/restaurant")
                 .then()
                 .extract()
                 .jsonPath().getInt("id");
 
         return given().contentType(ContentType.JSON).body(Map.of(
                 "name", "Sushi Combo", "description", "Fresh fish", "price", 80.0, "restaurantId", rId
-        )).post("/menu-items").then().extract().jsonPath().getInt("id");
+        )).post("api/v1/menu-items").then().extract().jsonPath().getInt("id");
     }
 }

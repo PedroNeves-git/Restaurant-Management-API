@@ -42,7 +42,7 @@ class DeleteRestaurantControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + roleName + "\"}")
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -60,7 +60,7 @@ class DeleteRestaurantControllerTest {
                 .contentType(ContentType.JSON)
                 .body(userRequest)
                 .when()
-                .post("/users")
+                .post("api/v1/users")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -72,7 +72,7 @@ class DeleteRestaurantControllerTest {
                 .contentType(ContentType.JSON)
                 .body("{\"name\":\"" + uniqueName + "\"}")
                 .when()
-                .post("/cuisinetype")
+                .post("api/v1/cuisinetype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
@@ -99,14 +99,14 @@ class DeleteRestaurantControllerTest {
         Long restaurantId = given().contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/restaurant")
+                .post("api/v1/restaurant")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getLong("id");
 
         given().pathParam("id", restaurantId)
                 .when()
-                .delete("/restaurant/{id}")
+                .delete("api/v1/restaurant/{id}")
                 .then()
                 .statusCode(200) // O controller retorna ResponseEntity.ok()
                 .body("code", equalTo("RESTAURANT_DELETED"))
@@ -119,7 +119,7 @@ class DeleteRestaurantControllerTest {
 
         given().pathParam("id", 999999L)
                 .when()
-                .delete("/restaurant/{id}")
+                .delete("api/v1/restaurant/{id}")
                 .then()
                 .statusCode(404);
     }

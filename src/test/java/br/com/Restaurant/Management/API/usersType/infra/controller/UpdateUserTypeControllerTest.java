@@ -39,7 +39,7 @@ class UpdateUserTypeControllerTest {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/userstype")
+                .post("api/v1/userstype")
                 .then()
                 .statusCode(201)
                 .extract().jsonPath().getInt("id");
@@ -50,7 +50,7 @@ class UpdateUserTypeControllerTest {
                 .contentType(ContentType.JSON)
                 .body(updateRequest)
                 .when()
-                .put("/userstype/{id}")
+                .put("api/v1/userstype/{id}")
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(idCriado))
@@ -66,7 +66,7 @@ class UpdateUserTypeControllerTest {
                 .contentType(ContentType.JSON)
                 .body(updateRequest)
                 .when()
-                .put("/userstype/{id}")
+                .put("api/v1/userstype/{id}")
                 .then()
                 .statusCode(404)
                 .body("code", equalTo("USER_TYPE_NOT_FOUND"));
