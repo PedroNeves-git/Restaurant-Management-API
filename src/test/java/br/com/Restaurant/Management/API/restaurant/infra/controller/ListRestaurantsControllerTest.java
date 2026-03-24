@@ -17,13 +17,12 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(SecurityConfigurationsTest.class)
-class CreateRestaurantControllerTest {
+class ListRestaurantsControllerTest {
 
     @LocalServerPort
     private int port;
@@ -37,7 +36,7 @@ class CreateRestaurantControllerTest {
 
     private Long createTestUser(String emailBase, String loginBase) {
         String uniqueCode = UUID.randomUUID().toString().substring(0, 8);
-        String roleName = "REST_OWNER_" + uniqueCode;
+        String roleName = "REST_OWNER_LIST_" + uniqueCode;
 
         Long userTypeId = given()
                 .contentType(ContentType.JSON)
@@ -49,7 +48,7 @@ class CreateRestaurantControllerTest {
                 .extract().jsonPath().getLong("id");
 
         var userRequest = new CreateUserInputDTO(
-                "Dono Restaurante Teste",
+                "Dono Lista",
                 emailBase + "_" + uniqueCode + "@email.com",
                 loginBase + "_" + uniqueCode,
                 "senha123",
@@ -80,41 +79,18 @@ class CreateRestaurantControllerTest {
     }
 
     @Test
-    @DisplayName("should return 201 when restaurant is created successfully")
-    void shouldReturnCreatedWhenRestaurantIsValid() {
-        Long ownerId = createTestUser("owner_success", "owner.success");
-        Long cuisineTypeId = createTestCuisineType("Japonesa");
+    @DisplayName("should return paginated restaurants successfully")
+    void shouldReturnPaginatedRestaurants() {
+        Long ownerId = createTestUser("owner_list", "owner.list");
+        Long cuisineTypeId = createTestCuisineType("Brasileira");
+
+        String uniqueRestaurantName = "Restaurante Lista " + UUID.randomUUID().toString().substring(0, 5);
 
         var request = new CreateRestaurantInputDTO(
-                "Sakura House",
-                "123 Main Street",
-                "11:00",
-                "23:00",
-                cuisineTypeId,
-                ownerId
-        );
-
-        given().contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/restaurant")
-                .then()
-                .statusCode(201)
-                .body("id", notNullValue())
-                .body("name", equalTo("Sakura House"));
-    }
-
-    @Test
-    @DisplayName("should return 409 when restaurant name is already in use")
-    void shouldReturnConflictWhenNameExists() {
-        Long ownerId = createTestUser("owner_conflict", "owner.conflict");
-        Long cuisineTypeId = createTestCuisineType("Italiana");
-
-        var request = new CreateRestaurantInputDTO(
-                "Pizzaria Napoli",
-                "Rua das Pizzas 123",
-                "18:00",
-                "23:59",
+                uniqueRestaurantName,
+                "Rua da Lista, 456",
+                "10:00",
+                "22:00",
                 cuisineTypeId,
                 ownerId
         );
@@ -126,12 +102,17 @@ class CreateRestaurantControllerTest {
                 .then()
                 .statusCode(201);
 
-        given().contentType(ContentType.JSON)
-                .body(request)
+        given().queryParam("page", 0)
+                .queryParam("size", 10)
                 .when()
-                .post("/restaurant")
+                .get("/restaurant")
                 .then()
-                .statusCode(409)
-                .body("code", equalTo("NAME_ALREADY_IN_USE"));
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("content", hasSize(greaterThanOrEqualTo(1)))
+                .body("page", is(0))
+                .body("size", is(10))
+                .body("totalElements", is(notNullValue()))
+                .body("content.name", hasItem(uniqueRestaurantName));
     }
 }

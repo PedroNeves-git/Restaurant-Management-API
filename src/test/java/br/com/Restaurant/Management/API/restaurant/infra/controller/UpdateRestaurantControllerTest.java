@@ -1,6 +1,7 @@
 package br.com.Restaurant.Management.API.restaurant.infra.controller;
 
 import br.com.Restaurant.Management.API.restaurant.core.dto.input.CreateRestaurantInputDTO;
+import br.com.Restaurant.Management.API.restaurant.core.dto.input.UpdateRestaurantInputDTO;
 import br.com.Restaurant.Management.API.users.core.domain.enums.UserRole;
 import br.com.Restaurant.Management.API.users.core.dto.input.CreateUserInputDTO;
 import br.com.Restaurant.Management.API.users.infra.gateway.config.SecurityConfigurationsTest;
@@ -18,12 +19,11 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(SecurityConfigurationsTest.class)
-class CreateRestaurantControllerTest {
+class UpdateRestaurantControllerTest {
 
     @LocalServerPort
     private int port;
@@ -37,7 +37,7 @@ class CreateRestaurantControllerTest {
 
     private Long createTestUser(String emailBase, String loginBase) {
         String uniqueCode = UUID.randomUUID().toString().substring(0, 8);
-        String roleName = "REST_OWNER_" + uniqueCode;
+        String roleName = "REST_OWNER_UPDATE_" + uniqueCode;
 
         Long userTypeId = given()
                 .contentType(ContentType.JSON)
@@ -49,7 +49,7 @@ class CreateRestaurantControllerTest {
                 .extract().jsonPath().getLong("id");
 
         var userRequest = new CreateUserInputDTO(
-                "Dono Restaurante Teste",
+                "Dono Update",
                 emailBase + "_" + uniqueCode + "@email.com",
                 loginBase + "_" + uniqueCode,
                 "senha123",
@@ -80,58 +80,70 @@ class CreateRestaurantControllerTest {
     }
 
     @Test
-    @DisplayName("should return 201 when restaurant is created successfully")
-    void shouldReturnCreatedWhenRestaurantIsValid() {
-        Long ownerId = createTestUser("owner_success", "owner.success");
-        Long cuisineTypeId = createTestCuisineType("Japonesa");
+    @DisplayName("should return 200 when restaurant is successfully updated")
+    void shouldReturn200WhenRestaurantIsUpdated() {
+        Long ownerId = createTestUser("owner_update", "owner.update");
+        Long oldCuisineTypeId = createTestCuisineType("Francesa");
+        Long newCuisineTypeId = createTestCuisineType("Contemporânea");
 
-        var request = new CreateRestaurantInputDTO(
-                "Sakura House",
-                "123 Main Street",
-                "11:00",
+        String originalName = "Restaurante Velho " + UUID.randomUUID().toString().substring(0, 5);
+
+        var createRequest = new CreateRestaurantInputDTO(
+                originalName,
+                "Rua Antiga, 100",
+                "18:00",
                 "23:00",
-                cuisineTypeId,
+                oldCuisineTypeId,
                 ownerId
         );
 
-        given().contentType(ContentType.JSON)
-                .body(request)
+        Long restaurantId = given().contentType(ContentType.JSON)
+                .body(createRequest)
                 .when()
                 .post("/restaurant")
                 .then()
                 .statusCode(201)
-                .body("id", notNullValue())
-                .body("name", equalTo("Sakura House"));
-    }
+                .extract().jsonPath().getLong("id"); // Precisamos extrair o ID para poder dar o PUT nele depois!
 
-    @Test
-    @DisplayName("should return 409 when restaurant name is already in use")
-    void shouldReturnConflictWhenNameExists() {
-        Long ownerId = createTestUser("owner_conflict", "owner.conflict");
-        Long cuisineTypeId = createTestCuisineType("Italiana");
-
-        var request = new CreateRestaurantInputDTO(
-                "Pizzaria Napoli",
-                "Rua das Pizzas 123",
-                "18:00",
+        String updatedName = "Restaurante Novo " + UUID.randomUUID().toString().substring(0, 5);
+        var updateRequest = new UpdateRestaurantInputDTO(
+                updatedName,
+                "Rua Nova, 200",
+                "19:00",
                 "23:59",
-                cuisineTypeId,
-                ownerId
+                newCuisineTypeId
         );
 
         given().contentType(ContentType.JSON)
-                .body(request)
+                .pathParam("id", restaurantId)
+                .body(updateRequest)
                 .when()
-                .post("/restaurant")
+                .put("/restaurant/{id}")
                 .then()
-                .statusCode(201);
+                .statusCode(200) // Assumindo que seu controller retorna 200 OK (se retornar 204 No Content, é só mudar aqui)
+                .body("name", equalTo(updatedName))
+                .body("address", equalTo("Rua Nova, 200"));
+    }
+
+    @Test
+    @DisplayName("should return 404 when trying to update a non-existent restaurant")
+    void shouldReturn404WhenUpdatingNonExistentRestaurant() {
+        Long cuisineTypeId = createTestCuisineType("Fantasma");
+
+        var updateRequest = new UpdateRestaurantInputDTO(
+                "Restaurante Fantasma",
+                "Rua do Além",
+                "00:00",
+                "01:00",
+                cuisineTypeId
+        );
 
         given().contentType(ContentType.JSON)
-                .body(request)
+                .pathParam("id", 999999L)
+                .body(updateRequest)
                 .when()
-                .post("/restaurant")
+                .put("/restaurant/{id}")
                 .then()
-                .statusCode(409)
-                .body("code", equalTo("NAME_ALREADY_IN_USE"));
+                .statusCode(404);
     }
 }

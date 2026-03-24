@@ -18,12 +18,11 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(SecurityConfigurationsTest.class)
-class CreateRestaurantControllerTest {
+class DeleteRestaurantControllerTest {
 
     @LocalServerPort
     private int port;
@@ -37,7 +36,7 @@ class CreateRestaurantControllerTest {
 
     private Long createTestUser(String emailBase, String loginBase) {
         String uniqueCode = UUID.randomUUID().toString().substring(0, 8);
-        String roleName = "REST_OWNER_" + uniqueCode;
+        String roleName = "REST_OWNER_DEL_" + uniqueCode;
 
         Long userTypeId = given()
                 .contentType(ContentType.JSON)
@@ -49,7 +48,7 @@ class CreateRestaurantControllerTest {
                 .extract().jsonPath().getLong("id");
 
         var userRequest = new CreateUserInputDTO(
-                "Dono Restaurante Teste",
+                "Dono Delete",
                 emailBase + "_" + uniqueCode + "@email.com",
                 loginBase + "_" + uniqueCode,
                 "senha123",
@@ -80,58 +79,48 @@ class CreateRestaurantControllerTest {
     }
 
     @Test
-    @DisplayName("should return 201 when restaurant is created successfully")
-    void shouldReturnCreatedWhenRestaurantIsValid() {
-        Long ownerId = createTestUser("owner_success", "owner.success");
-        Long cuisineTypeId = createTestCuisineType("Japonesa");
+    @DisplayName("should return 200 when restaurant is deleted successfully")
+    void shouldDeleteRestaurantSuccessfully() {
 
-        var request = new CreateRestaurantInputDTO(
-                "Sakura House",
-                "123 Main Street",
+        Long ownerId = createTestUser("owner_delete", "owner.delete");
+        Long cuisineTypeId = createTestCuisineType("Churrascaria");
+
+        String restaurantName = "Restaurante Deletado " + UUID.randomUUID().toString().substring(0, 5);
+
+        var createRequest = new CreateRestaurantInputDTO(
+                restaurantName,
+                "Avenida da Fumaça, 500",
                 "11:00",
-                "23:00",
+                "15:00",
                 cuisineTypeId,
                 ownerId
         );
 
-        given().contentType(ContentType.JSON)
-                .body(request)
+        Long restaurantId = given().contentType(ContentType.JSON)
+                .body(createRequest)
                 .when()
                 .post("/restaurant")
                 .then()
                 .statusCode(201)
-                .body("id", notNullValue())
-                .body("name", equalTo("Sakura House"));
+                .extract().jsonPath().getLong("id");
+
+        given().pathParam("id", restaurantId)
+                .when()
+                .delete("/restaurant/{id}")
+                .then()
+                .statusCode(200) // O controller retorna ResponseEntity.ok()
+                .body("code", equalTo("RESTAURANT_DELETED"))
+                .body("message", equalTo("Restaurant deleted successfully"));
     }
 
     @Test
-    @DisplayName("should return 409 when restaurant name is already in use")
-    void shouldReturnConflictWhenNameExists() {
-        Long ownerId = createTestUser("owner_conflict", "owner.conflict");
-        Long cuisineTypeId = createTestCuisineType("Italiana");
+    @DisplayName("should return 404 when trying to delete a non-existent restaurant")
+    void shouldReturn404WhenNotFound() {
 
-        var request = new CreateRestaurantInputDTO(
-                "Pizzaria Napoli",
-                "Rua das Pizzas 123",
-                "18:00",
-                "23:59",
-                cuisineTypeId,
-                ownerId
-        );
-
-        given().contentType(ContentType.JSON)
-                .body(request)
+        given().pathParam("id", 999999L)
                 .when()
-                .post("/restaurant")
+                .delete("/restaurant/{id}")
                 .then()
-                .statusCode(201);
-
-        given().contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/restaurant")
-                .then()
-                .statusCode(409)
-                .body("code", equalTo("NAME_ALREADY_IN_USE"));
+                .statusCode(404);
     }
 }
