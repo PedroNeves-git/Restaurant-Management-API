@@ -40,4 +40,7 @@ public class RestaurantBeanConfig {
     public UpdateRestaurantUseCase updateRestaurantUseCase(RestaurantGateway restaurantGateway, CuisineTypeGateway cuisineTypeGateway) {
         return new UpdateRestaurantUseCase(restaurantGateway, cuisineTypeGateway);
     }
+
+//    restaurant
+//    user
 }
