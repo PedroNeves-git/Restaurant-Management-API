@@ -18,6 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -115,5 +116,37 @@ class UpdateUserControllerTest {
                 .put("/users/{id}")
                 .then()
                 .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("should return 409 when attempting to create a user with a login already in use")
+    void shouldReturn400WhenLoginAlreadyInUse() {
+        var uniqueSuffix = UUID.randomUUID().toString().substring(0, 8);
+        var duplicateLogin = "user.duplicate." + uniqueSuffix;
+        var typeId = createTestUserType("ROLE_DUP_" + uniqueSuffix);
+
+        createTestUser(
+                "Primeiro Usuario",
+                "primeiro_" + uniqueSuffix + "@email.com",
+                duplicateLogin,
+                typeId);
+
+        var duplicateRequest = new CreateUserInputDTO(
+                "Segundo Usuario",
+                "segundo_" + uniqueSuffix + "@email.com",
+                duplicateLogin,
+                "OutraSenha123",
+                typeId,
+                UserRole.RESTAURANT_OWNER
+        );
+
+        given().contentType(ContentType.JSON)
+                .body(duplicateRequest)
+                .when()
+                .post("/users")
+                .then()
+                .statusCode(409)
+                .body("code", equalTo("LOGIN_ALREADY_IN_USE"))
+                .body("message", containsString("Login already exists"));
     }
 }
