@@ -40,7 +40,10 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/cuisinetype/**")
                         .hasAnyRole("USER", "RESTAURANT_OWNER")
 
-                        .requestMatchers(HttpMethod.GET, "/menu-items/**")
+                        .requestMatchers(HttpMethod.GET, "/restaurant/**")
+                        .hasAnyRole("USER", "RESTAURANT_OWNER")
+
+                        .requestMatchers(HttpMethod.GET, "//**")
                         .hasAnyRole("USER", "RESTAURANT_OWNER")
 
                         .requestMatchers("/users/**").hasRole("RESTAURANT_OWNER")
