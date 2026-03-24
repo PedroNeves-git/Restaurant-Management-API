@@ -49,14 +49,16 @@ class DeleteMenuItemControllerTest {
     }
 
     @Test
-    @DisplayName("should return 204 when menu item is deleted successfully")
-    void shouldReturn204WhenDeleted() {
+    @DisplayName("should return 200 when menu item is deleted successfully")
+    void shouldReturn200WhenDeleted() {
         int itemId = createScenario();
+
         given().pathParam("id", itemId)
                 .when()
                 .delete("api/v1/menu-items/{id}")
                 .then()
-                .statusCode(204);
+                .statusCode(200)
+                .body("code", equalTo("ITEM_DELETED"));
 
         given().pathParam("id", itemId)
                 .when()
