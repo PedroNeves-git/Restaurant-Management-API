@@ -31,19 +31,16 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/users/**")
+                        .requestMatchers(HttpMethod.GET, "/users**")
                         .hasAnyRole("USER", "RESTAURANT_OWNER")
 
-                        .requestMatchers(HttpMethod.GET, "/userstype/**")
+                        .requestMatchers(HttpMethod.GET, "/userstype**")
                         .hasAnyRole("USER", "RESTAURANT_OWNER")
 
-                        .requestMatchers(HttpMethod.GET, "/cuisinetype/**")
+                        .requestMatchers(HttpMethod.GET, "/cuisinetype**")
                         .hasAnyRole("USER", "RESTAURANT_OWNER")
 
-                        .requestMatchers(HttpMethod.GET, "/restaurant/**")
-                        .hasAnyRole("USER", "RESTAURANT_OWNER")
-
-                        .requestMatchers(HttpMethod.GET, "//**")
+                        .requestMatchers(HttpMethod.GET, "/restaurant**")
                         .hasAnyRole("USER", "RESTAURANT_OWNER")
 
                         .requestMatchers("/users/**").hasRole("RESTAURANT_OWNER")

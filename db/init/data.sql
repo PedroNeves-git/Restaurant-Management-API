@@ -45,10 +45,6 @@ CREATE TABLE IF NOT EXISTS menu_items (
 INSERT IGNORE INTO users_type (id, name) VALUES (1, 'Restaurant Owner');
 INSERT IGNORE INTO users_type (id, name) VALUES (2, 'Customer');
 
--- users
-INSERT IGNORE INTO users (name, email, login, password, active, type_id, role, created_at, updated_at)
-VALUES ('Admin', 'admin@restaurant.com', 'admin', 'Admin@123', true, 1, 'RESTAURANT_OWNER', NOW(),NOW());
-
 -- cuisine_type
 INSERT IGNORE INTO cuisine_type (id, name) VALUES (1, 'Mexican');
 INSERT IGNORE INTO cuisine_type (id, name) VALUES (2, 'Japanese');

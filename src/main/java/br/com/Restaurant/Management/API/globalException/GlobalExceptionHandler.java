@@ -1,5 +1,7 @@
 package br.com.Restaurant.Management.API.globalException;
 
+import br.com.Restaurant.Management.API.cuisinetype.core.exception.CuisineTypeAlreadyInUseException;
+import br.com.Restaurant.Management.API.cuisinetype.core.exception.CuisineTypeNotFoundException;
 import br.com.Restaurant.Management.API.menuItems.core.exception.MenuItemNotFoundException;
 import br.com.Restaurant.Management.API.restaurant.core.exception.NameAlreadyInUseException;
 import br.com.Restaurant.Management.API.restaurant.core.exception.RestaurantNotFoundException;
@@ -60,7 +62,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
-        ex.printStackTrace(); // mostra no log do Docker
+        ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 new ErrorResponse(
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -131,4 +133,27 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(CuisineTypeAlreadyInUseException.class)
+    public ResponseEntity<ErrorResponse> handleCuisineTypeAlreadyInUse(CuisineTypeAlreadyInUseException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                new ErrorResponse(
+                        HttpStatus.CONFLICT.value(),
+                        "CUISINE_TYPE_ALREADY_IN_USE",
+                        ex.getMessage(),
+                        OffsetDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(CuisineTypeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCuisineTypeNotFound(CuisineTypeNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ErrorResponse(
+                        HttpStatus.NOT_FOUND.value(),
+                        "CUISINE_TYPE_NOT_FOUND",
+                        ex.getMessage(),
+                        OffsetDateTime.now()
+                )
+        );
+    }
 }
